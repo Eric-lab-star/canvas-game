@@ -1,7 +1,7 @@
 import { Player } from "./components/Player";
 import { Projectile } from "./components/Projectile";
 import "./style.css";
-import { randomColor, velocity } from "./utils";
+import { randomColor, range, velocity } from "./utils";
 
 const body = document.querySelector("body");
 const canvas = document.createElement("canvas");
@@ -24,7 +24,18 @@ function animate() {
   ctx?.clearRect(0, 0, innerWidth, innerHeight);
   player1.draw();
   projectiles.forEach((projectile) => projectile.update());
-  enemies.forEach((enemy) => enemy.update());
+  enemies.forEach((enemy, enemyIndex) => {
+    enemy.update();
+    projectiles.forEach((projectile, projectileIndex) => {
+      const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
+      if (dist - enemy.radius - projectile.radius <= 0) {
+        setTimeout(() => {
+          enemies.splice(enemyIndex, 1);
+          projectiles.splice(projectileIndex, 1);
+        }, 0);
+      }
+    });
+  });
 }
 
 const spawnEnemy = () => {
@@ -33,12 +44,12 @@ const spawnEnemy = () => {
     let y;
     let color = randomColor();
     let radius;
-    radius = Math.random() * 5 + 3;
+    radius = range(4, 10);
     if (Math.random() < 0.5) {
       x = Math.random() < 0.5 ? -radius : innerWidth + radius;
-      y = Math.random() * innerHeight;
+      y = range(0, innerHeight);
     } else {
-      x = Math.random() * innerWidth;
+      x = range(0, innerWidth);
       y = Math.random() < 0.5 ? -radius : innerHeight + radius;
     }
     const { dx, dy } = velocity(x, y, Xcenter, Ycenter);
@@ -50,7 +61,7 @@ const spawnEnemy = () => {
       radius,
     });
     enemies.push(enemy);
-  }, 1000);
+  }, 2000);
 };
 
 const handleClick = (event: MouseEvent) => {
@@ -59,7 +70,7 @@ const handleClick = (event: MouseEvent) => {
   const projectile = new Projectile({
     x: Xcenter,
     y: Ycenter,
-    radius: 2,
+    radius: 10,
     color: "blue",
     velocity: { x: dx, y: dy },
   });

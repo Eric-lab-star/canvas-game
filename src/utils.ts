@@ -36,3 +36,7 @@ export function randomColor() {
   });
   return color;
 }
+
+export function range(min: number, max: number) {
+  return Math.random() * (max - min) + min;
+}

@@ -7,10 +7,10 @@ export interface IArcProp {
 export class Arc {
   private canvas = document.querySelector("canvas");
   private ctx = this.canvas?.getContext("2d");
-  protected x: number;
-  protected y: number;
-  protected radius: number;
-  protected color: string;
+  public x: number;
+  public y: number;
+  public radius: number;
+  public color: string;
   constructor({ x, y, radius, color }: IArcProp) {
     this.x = x;
     this.y = y;
