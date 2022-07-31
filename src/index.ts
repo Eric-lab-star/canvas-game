@@ -1,6 +1,7 @@
 import { Player } from "./components/Player";
 import { Projectile } from "./components/Projectile";
 import "./style.css";
+import { randomColor, velocity } from "./utils";
 
 const body = document.querySelector("body");
 const canvas = document.createElement("canvas");
@@ -17,32 +18,55 @@ const player1 = new Player({
   color: "red",
 });
 const projectiles: Projectile[] = [];
+const enemies: Projectile[] = [];
 function animate() {
   requestAnimationFrame(animate);
   ctx?.clearRect(0, 0, innerWidth, innerHeight);
   player1.draw();
   projectiles.forEach((projectile) => projectile.update());
+  enemies.forEach((enemy) => enemy.update());
 }
-player1.draw();
-animate();
+
+const spawnEnemy = () => {
+  setInterval(() => {
+    let x;
+    let y;
+    let color = randomColor();
+    let radius;
+    radius = Math.random() * 5 + 3;
+    if (Math.random() < 0.5) {
+      x = Math.random() < 0.5 ? -radius : innerWidth + radius;
+      y = Math.random() * innerHeight;
+    } else {
+      x = Math.random() * innerWidth;
+      y = Math.random() < 0.5 ? -radius : innerHeight + radius;
+    }
+    const { dx, dy } = velocity(x, y, Xcenter, Ycenter);
+    const enemy = new Projectile({
+      x,
+      y,
+      color,
+      velocity: { x: dx, y: dy },
+      radius,
+    });
+    enemies.push(enemy);
+  }, 1000);
+};
 
 const handleClick = (event: MouseEvent) => {
   const { clientX, clientY } = event;
-  const x = clientX - Xcenter;
-  const y = clientY - Ycenter;
-  const angle = Math.atan2(y, x);
-  const velocity = {
-    x: Math.cos(angle),
-    y: Math.sin(angle),
-  };
+  const { dx, dy } = velocity(Xcenter, Ycenter, clientX, clientY);
   const projectile = new Projectile({
     x: Xcenter,
     y: Ycenter,
     radius: 2,
     color: "blue",
-    velocity: { x: velocity.x, y: velocity.y },
+    velocity: { x: dx, y: dy },
   });
   projectiles.push(projectile);
 };
 
 addEventListener("click", handleClick);
+player1.draw();
+spawnEnemy();
+animate();
