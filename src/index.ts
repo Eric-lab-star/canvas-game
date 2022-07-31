@@ -38,8 +38,8 @@ const handleClick = (event: MouseEvent) => {
   const projectile = new Projectile({
     x: Xcenter,
     y: Ycenter,
-    radius: 3,
-    color: "green",
+    radius: 2,
+    color: "blue",
     velocity: { x: velocity.x, y: velocity.y },
   });
   projectiles.push(projectile);
