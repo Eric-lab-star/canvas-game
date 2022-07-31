@@ -16,8 +16,15 @@ const player1 = new Player({
   radius: 30,
   color: "red",
 });
-player1.draw();
 const projectiles: Projectile[] = [];
+function animate() {
+  requestAnimationFrame(animate);
+  ctx?.clearRect(0, 0, innerWidth, innerHeight);
+  player1.draw();
+  projectiles.forEach((projectile) => projectile.update());
+}
+player1.draw();
+animate();
 
 const handleClick = (event: MouseEvent) => {
   const { clientX, clientY } = event;
@@ -36,14 +43,6 @@ const handleClick = (event: MouseEvent) => {
     velocity: { x: velocity.x, y: velocity.y },
   });
   projectiles.push(projectile);
-
-  function animate() {
-    requestAnimationFrame(animate);
-    ctx?.clearRect(0, 0, innerWidth, innerHeight);
-    player1.draw();
-    projectiles.forEach((projectile) => projectile.update());
-  }
-  animate();
 };
 
 addEventListener("click", handleClick);

@@ -12,7 +12,6 @@
   "author": "Kyungsub Kim",
   "license": "MIT",
   "devDependencies": {
-    "@types/lodash": "^4.14.182",
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
     "nodemon": "^2.0.19",
@@ -23,8 +22,5 @@
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.9.3"
-  },
-  "dependencies": {
-    "lodash": "^4.17.21"
   }
 }
