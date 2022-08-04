@@ -9,23 +9,29 @@ const ctx = canvas.getContext("2d");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 body?.appendChild(canvas);
+
 const Xcenter = canvas.width / 2;
 const Ycenter = canvas.height / 2;
 const player1 = new Player({
   x: Xcenter,
   y: Ycenter,
   radius: 30,
-  color: "red",
+  color: "blue",
 });
 const projectiles: Projectile[] = [];
 const enemies: Projectile[] = [];
+let animationId: number;
 function animate() {
-  requestAnimationFrame(animate);
+  animationId = requestAnimationFrame(animate);
   ctx?.clearRect(0, 0, innerWidth, innerHeight);
   player1.draw();
   projectiles.forEach((projectile) => projectile.update());
   enemies.forEach((enemy, enemyIndex) => {
     enemy.update();
+    const dist = Math.hypot(enemy.x - player1.x, enemy.y - player1.y);
+    if (dist - enemy.radius - player1.radius <= 0) {
+      cancelAnimationFrame(animationId);
+    }
     projectiles.forEach((projectile, projectileIndex) => {
       const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
       if (dist - enemy.radius - projectile.radius <= 0) {
@@ -61,7 +67,7 @@ const spawnEnemy = () => {
       radius,
     });
     enemies.push(enemy);
-  }, 2000);
+  }, 1000);
 };
 
 const handleClick = (event: MouseEvent) => {
@@ -78,6 +84,6 @@ const handleClick = (event: MouseEvent) => {
 };
 
 addEventListener("click", handleClick);
-player1.draw();
+
 spawnEnemy();
 animate();
