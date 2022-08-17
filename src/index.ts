@@ -21,6 +21,7 @@ const player1 = new Player({
 const projectiles: Projectile[] = [];
 const enemies: Projectile[] = [];
 let animationId: number;
+
 function animate() {
   animationId = requestAnimationFrame(animate);
   ctx!.fillStyle = `rgba(0,0,0,0.1)`;
@@ -50,12 +51,21 @@ function animate() {
 
     projectiles.forEach((projectile, projectileIndex) => {
       const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
-      //when projectile hits enemy, remove projectile and enmey
+      //when projectile hits enemy
       if (dist - enemy.radius - projectile.radius <= 0) {
-        setTimeout(() => {
-          enemies.splice(enemyIndex, 1);
-          projectiles.splice(projectileIndex, 1);
-        }, 0);
+        if (enemy.radius - 10 > 10) {
+          enemy.radius -= 10;
+          setTimeout(() => {
+            projectiles.splice(projectileIndex, 1);
+          }, 0);
+          return;
+        } else {
+          setTimeout(() => {
+            enemies.splice(enemyIndex, 1);
+            projectiles.splice(projectileIndex, 1);
+          }, 0);
+          return;
+        }
       }
     });
   });
@@ -67,7 +77,7 @@ const spawnEnemy = () => {
     let y;
     let color = randomColor();
     let radius;
-    radius = range(4, 10);
+    radius = range(30, 50);
     if (Math.random() < 0.5) {
       x = Math.random() < 0.5 ? -radius : innerWidth + radius;
       y = range(0, innerHeight);

@@ -5,8 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "webpack serve --open",
-    "watch": "webpack --watch"
+    "watch": "webpack  --watch",
+    "start": "webpack serve --open"
   },
   "private": "true",
   "author": "Kyungsub Kim",
