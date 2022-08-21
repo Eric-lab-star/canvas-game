@@ -1,3 +1,5 @@
+import { Arc } from "./components/Arc";
+
 export function velocity(
   Xnow: number,
   Ynow: number,
@@ -40,3 +42,12 @@ export function randomColor() {
 export function range(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
+
+export const isProjectileOut = (arc: Arc) => {
+  return (
+    arc.x <= -arc.radius ||
+    arc.x >= innerWidth + arc.radius ||
+    arc.y <= -arc.radius ||
+    arc.y >= innerHeight + arc.radius
+  );
+};

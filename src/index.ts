@@ -1,7 +1,6 @@
-import { Player } from "./components/Player";
-import { Projectile } from "./components/Projectile";
+import { Arc } from "./components/Arc";
 import "./style.css";
-import { randomColor, range, velocity } from "./utils";
+import { isProjectileOut, randomColor, range, velocity } from "./utils";
 
 const body = document.querySelector("body");
 const canvas = document.createElement("canvas");
@@ -12,35 +11,41 @@ body?.appendChild(canvas);
 
 const Xcenter = canvas.width / 2;
 const Ycenter = canvas.height / 2;
-const player1 = new Player({
+
+const player1: Arc = new Arc({
   x: Xcenter,
   y: Ycenter,
   radius: 30,
   color: "blue",
 });
-const projectiles: Projectile[] = [];
-const enemies: Projectile[] = [];
+
+const projectiles: Arc[] = [];
+
+const enemies: Arc[] = [];
+
 let animationId: number;
 
 function animate() {
+  //handle ctx
+  if (!ctx)
+    return console.log("canvase 2d context is not provided from index.ts");
+  //create animtation loop
   animationId = requestAnimationFrame(animate);
-  ctx!.fillStyle = `rgba(0,0,0,0.1)`;
-  ctx!.fillRect(0, 0, innerWidth, innerHeight);
+  ctx.fillStyle = "rgba(0,0,0,0.1)";
+  ctx.fillRect(0, 0, innerWidth, innerHeight);
   player1.draw();
+  //
   projectiles.forEach((projectile, index) => {
     projectile.update();
     //when projectile is outside screen, remove projectile
-    if (
-      projectile.x <= -projectile.radius ||
-      projectile.x >= innerWidth + projectile.radius ||
-      projectile.y <= -projectile.radius ||
-      projectile.y >= innerHeight + projectile.radius
-    ) {
+    if (isProjectileOut(projectile)) {
       setTimeout(() => {
         projectiles.splice(index, 1);
       }, 0);
     }
   });
+  return;
+  //
   enemies.forEach((enemy, enemyIndex) => {
     enemy.update();
     const dist = Math.hypot(enemy.x - player1.x, enemy.y - player1.y);
@@ -86,7 +91,7 @@ const spawnEnemy = () => {
       y = Math.random() < 0.5 ? -radius : innerHeight + radius;
     }
     const { dx, dy } = velocity(x, y, Xcenter, Ycenter);
-    const enemy = new Projectile({
+    const enemy = new Arc({
       x,
       y,
       color,
@@ -100,7 +105,7 @@ const spawnEnemy = () => {
 const handleClick = (event: MouseEvent) => {
   const { clientX, clientY } = event;
   const { dx, dy } = velocity(Xcenter, Ycenter, clientX, clientY);
-  const projectile = new Projectile({
+  const projectile = new Arc({
     x: Xcenter,
     y: Ycenter,
     radius: 5,
