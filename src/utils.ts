@@ -51,3 +51,12 @@ export const isProjectileOut = (arc: Arc) => {
     arc.y >= innerHeight + arc.radius
   );
 };
+
+export const distance = (A: Arc, B: Arc) => {
+  return Math.hypot(A.x - B.x, A.y - B.y);
+};
+
+export const isTouched = (A: Arc, B: Arc) => {
+  const AnBDistance = distance(A, B);
+  return Boolean(AnBDistance <= A.radius + B.radius);
+};

@@ -3,7 +3,7 @@ export interface IArcProp {
   y: number;
   radius: number;
   color: string;
-  velocity?: { x: number; y: number };
+  velocity?: { dx: number; dy: number };
 }
 export class Arc {
   //types
@@ -13,14 +13,14 @@ export class Arc {
   public y: number;
   public radius: number;
   public color: string;
-  public velocity: { x: number; y: number };
+  public velocity?: { dx: number; dy: number };
 
   constructor({ x, y, radius, color, velocity }: IArcProp) {
     this.x = x;
     this.y = y;
     this.radius = radius;
     this.color = color;
-    this.velocity = velocity || { x: 0, y: 0 };
+    this.velocity = velocity;
   }
 
   public draw() {
@@ -33,8 +33,10 @@ export class Arc {
     }
   }
   public update() {
-    this.draw();
-    this.x = this.x + this.velocity.x;
-    this.y = this.y + this.velocity.y;
+    if (this.velocity) {
+      this.draw();
+      this.x = this.x + this.velocity.dx;
+      this.y = this.y + this.velocity.dy;
+    }
   }
 }
