@@ -1,6 +1,6 @@
 import { animationId, enemies, player, projectiles } from "..";
 import { distance, isTouched } from "../utils";
-
+import gsap from "gsap";
 export default function handleEnemies() {
   const minRadius = 10;
   enemies.forEach((enemy, enemyIndex) => {
@@ -11,6 +11,9 @@ export default function handleEnemies() {
     projectiles.forEach((projectile, projectileIndex) => {
       if (isTouched(enemy, projectile)) {
         if (enemy.radius - 10 > minRadius) {
+          gsap.to(enemy, {
+            radius: enemy.radius - 10,
+          });
           enemy.radius -= 10;
           setTimeout(() => {
             projectiles.splice(projectileIndex, 1);
