@@ -1,4 +1,4 @@
-import { animationId, enemies, particles, player, projectiles } from "..";
+import { animationId, enemies, player, projectiles } from "..";
 import { isTouched } from "../utils";
 import createParticle from "./createParticles";
 import removeProjectileAndEnemy from "./removeEnemyandProjectile";

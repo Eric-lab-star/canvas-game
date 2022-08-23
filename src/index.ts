@@ -10,7 +10,7 @@ import createEnemy from "./utils/createEnemy";
 
 const body = document.querySelector("body");
 const canvas = document.createElement("canvas");
-const ctx = canvas.getContext("2d");
+export const ctx = canvas.getContext("2d");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 body?.appendChild(canvas);
