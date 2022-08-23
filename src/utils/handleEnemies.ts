@@ -1,6 +1,8 @@
-import { animationId, enemies, player, projectiles } from "..";
-import { distance, isTouched } from "../utils";
-import gsap from "gsap";
+import { animationId, enemies, particles, player, projectiles } from "..";
+import { isTouched } from "../utils";
+import createParticle from "./createParticles";
+import removeProjectileAndEnemy from "./removeEnemyandProjectile";
+import reduceEnemySizeAndRemoveProjectile from "./reduceEnemySizeandRemoveProjectile";
 export default function handleEnemies() {
   const minRadius = 10;
   enemies.forEach((enemy, enemyIndex) => {
@@ -10,20 +12,12 @@ export default function handleEnemies() {
     }
     projectiles.forEach((projectile, projectileIndex) => {
       if (isTouched(enemy, projectile)) {
+        createParticle({ enemy, projectile });
         if (enemy.radius - 10 > minRadius) {
-          gsap.to(enemy, {
-            radius: enemy.radius - 10,
-          });
-          enemy.radius -= 10;
-          setTimeout(() => {
-            projectiles.splice(projectileIndex, 1);
-          }, 0);
+          reduceEnemySizeAndRemoveProjectile({ enemy, projectileIndex });
           return;
         } else {
-          setTimeout(() => {
-            enemies.splice(enemyIndex, 1);
-            projectiles.splice(projectileIndex, 1);
-          }, 0);
+          removeProjectileAndEnemy({ enemyIndex, projectileIndex });
           return;
         }
       }
