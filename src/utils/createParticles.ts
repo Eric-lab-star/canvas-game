@@ -3,7 +3,7 @@ import { Arc } from "../components/Arc";
 import getParticle from "../components/Particle";
 
 export default function createParticle({ enemy, projectile }: IParams) {
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < enemy.radius; i++) {
     const particle = getParticle({
       color: enemy.color,
       x: projectile.x,

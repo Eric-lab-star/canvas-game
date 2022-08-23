@@ -3,10 +3,11 @@ import getPlayer from "./components/Player";
 import getProjectile from "./components/Projectile";
 import "./style.css";
 import { velocity } from "./utils";
-import handleEnemies from "./utils/handleEnemies";
-import handleParticles from "./utils/handleParticles";
-import handleProjectiles from "./utils/handleProjectile";
+import handleEnemies from "./utils/updateEnemies";
+import handleParticles from "./utils/updateParticles";
+import handleProjectiles from "./utils/updateProjectile";
 import createEnemy from "./utils/createEnemy";
+import { Particle } from "./components/Particle";
 
 const body = document.querySelector("body");
 const canvas = document.createElement("canvas");
@@ -19,7 +20,7 @@ export const Xcenter = canvas.width / 2;
 export const Ycenter = canvas.height / 2;
 export const projectiles: Arc[] = [];
 export const enemies: Arc[] = [];
-export const particles: Arc[] = [];
+export const particles: Particle[] = [];
 export const player = getPlayer();
 export let animationId: number;
 
