@@ -10,9 +10,8 @@ export default function reduceEnemySizeAndRemoveProjectile({
     radius: enemy.radius - 10,
   });
   enemy.radius -= 10;
-  setTimeout(() => {
-    projectiles.splice(projectileIndex, 1);
-  }, 0);
+
+  projectiles.splice(projectileIndex, 1);
 }
 
 interface IParams {

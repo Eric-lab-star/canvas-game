@@ -10,6 +10,17 @@ import createEnemy from "./utils/createEnemy";
 import { Particle } from "./components/Particle";
 
 const body = document.querySelector("body");
+const score = document.createElement("div");
+export const number = document.createElement("span");
+export const end = document.createElement("div");
+
+body?.appendChild(end);
+end.className = "end";
+end.innerText = "Gave Over";
+number.innerText = "0";
+score.innerText = "Score:";
+score.appendChild(number);
+body?.appendChild(score);
 const canvas = document.createElement("canvas");
 export const ctx = canvas.getContext("2d");
 canvas.width = innerWidth;
